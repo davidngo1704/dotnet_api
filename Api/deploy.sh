@@ -12,26 +12,34 @@ SERVICE_FILE="/etc/systemd/system/$APP_NAME.service"
 DOTNET_PATH="/usr/bin/dotnet"
 RUN_USER="www-data"
 
+### ===== CHECK DOTNET =====
+if ! command -v dotnet &> /dev/null
+then
+    echo "==> Installing .NET runtime..."
+    sudo apt update
+    sudo apt install -y dotnet-runtime-8.0
+fi
+
 ### ===== BUILD =====
 echo "==> Publishing project..."
 cd $PROJECT_PATH
 dotnet publish -c Release -o $PUBLISH_DIR
 
-### ===== PREPARE SERVER DIR =====
-echo "==> Preparing deploy directory..."
+### ===== PREPARE DIR =====
+echo "==> Syncing files..."
 sudo mkdir -p $DEPLOY_DIR
-sudo rm -rf $DEPLOY_DIR/*
-sudo cp -r $PUBLISH_DIR/* $DEPLOY_DIR/
+sudo rsync -av --delete $PUBLISH_DIR/ $DEPLOY_DIR/
 
 ### ===== PERMISSION =====
 echo "==> Setting permissions..."
 sudo chown -R $RUN_USER:$RUN_USER $DEPLOY_DIR
 sudo chmod -R 755 $DEPLOY_DIR
 
-### ===== CREATE SYSTEMD SERVICE =====
-echo "==> Creating systemd service..."
+### ===== CREATE SERVICE IF NOT EXISTS =====
+if [ ! -f "$SERVICE_FILE" ]; then
+    echo "==> Creating new systemd service..."
 
-sudo bash -c "cat > $SERVICE_FILE" <<EOF
+    sudo bash -c "cat > $SERVICE_FILE" <<EOF
 [Unit]
 Description=$APP_NAME ASP.NET Core App
 After=network.target
@@ -45,20 +53,23 @@ KillSignal=SIGINT
 SyslogIdentifier=$APP_NAME
 User=$RUN_USER
 Environment=ASPNETCORE_ENVIRONMENT=Production
+Environment=ASPNETCORE_URLS=http://0.0.0.0:5000
 Environment=DOTNET_PRINT_TELEMETRY_MESSAGE=false
 
 [Install]
 WantedBy=multi-user.target
 EOF
 
-### ===== RELOAD + START =====
-echo "==> Reloading systemd..."
-sudo systemctl daemon-reexec
-sudo systemctl daemon-reload
+    sudo systemctl daemon-reexec
+    sudo systemctl daemon-reload
+    sudo systemctl enable $APP_NAME
 
-echo "==> Enabling service..."
-sudo systemctl enable $APP_NAME
+    echo "==> Service created."
+else
+    echo "==> Service already exists → skip create."
+fi
 
+### ===== RESTART SERVICE =====
 echo "==> Restarting service..."
 sudo systemctl restart $APP_NAME
 
@@ -66,5 +77,5 @@ sudo systemctl restart $APP_NAME
 echo "==> Service status:"
 sudo systemctl status $APP_NAME --no-pager
 
-echo "==> Done. Logs:"
+echo "==> Logs:"
 echo "journalctl -u $APP_NAME -f"
