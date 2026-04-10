@@ -9,7 +9,7 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok("Hello from the blockchain controller!");
+            return Ok("Hello DAI!");
         }
     }
 }
