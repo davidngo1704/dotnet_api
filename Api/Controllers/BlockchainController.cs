@@ -82,7 +82,7 @@ namespace Api.Controllers
 
             var bybit = JsonSerializer.Deserialize<List<CryptoModel>>(data[5]?.data!, DefaultValue.JsonOption);
 
-            var bitget = JsonSerializer.Deserialize<List<BitgetModel>>(data[6]?.data!, DefaultValue.JsonOption);
+            var bitget = JsonSerializer.Deserialize<BitgetModel>(data[6]?.data!, DefaultValue.JsonOption);
 
             var gate = JsonSerializer.Deserialize<GateSpotModels>(data[7]?.data!, DefaultValue.JsonOption);
 
