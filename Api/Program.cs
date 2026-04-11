@@ -1,4 +1,6 @@
 
+using Api.Libraries;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
@@ -10,6 +12,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHttpClient();
+
+builder.Services.AddTransient<IHttpService, HttpService>();
 
 var app = builder.Build();
 
