@@ -1,44 +1,12 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Api.Models;
+﻿namespace Api.Models;
 
 public class MexcSpotModels
 {
-    [JsonPropertyName("makerCommission")]
-    public decimal? MakerCommission { get; set; }
 
-    [JsonPropertyName("takerCommission")]
-    public decimal? TakerCommission { get; set; }
-
-    [JsonPropertyName("buyerCommission")]
-    public decimal? BuyerCommission { get; set; }
-
-    [JsonPropertyName("sellerCommission")]
-    public decimal? SellerCommission { get; set; }
-
-    [JsonPropertyName("canTrade")]
-    public bool CanTrade { get; set; }
-
-    [JsonPropertyName("canWithdraw")]
-    public bool CanWithdraw { get; set; }
-
-    [JsonPropertyName("canDeposit")]
-    public bool CanDeposit { get; set; }
-
-    [JsonPropertyName("updateTime")]
-    public long? UpdateTime { get; set; }
-
-    [JsonPropertyName("accountType")]
-    public string AccountType { get; set; }
-
-    [JsonPropertyName("balances")]
-    public List<Balance> Balances { get; set; }
-
-    [JsonPropertyName("permissions")]
-    public List<string> Permissions { get; set; }
+    public List<MexcBalance>? balances { get; set; }
 }
 
-public class Balance
+public class MexcBalance
 {
     public string? asset { get; set; }
 
@@ -47,4 +15,53 @@ public class Balance
     public decimal locked { get; set; }
 
     public decimal available { get; set; }
+}
+
+public class KucoinBalanceResponse
+{
+    public List<KucoinBalanceItem>? balances { get; set; }
+}
+
+public class KucoinBalanceItem
+{
+    public string? currency { get; set; }
+
+    public decimal balance { get; set; }
+
+    public decimal available { get; set; }
+
+    public decimal holds { get; set; }
+}
+public class CryptoModel
+{
+    public string? asset { get; set; }
+
+    public decimal free { get; set; }
+
+    public decimal total { get; set; }
+}
+public class BitgetModel
+{
+    public List<BitgetItem>? data { get; set; }
+}
+public class BitgetItem 
+{
+    public string? coin { get; set; }
+    public decimal available { get; set; }
+}
+public class GateSpotModels
+{
+
+    public List<MexcBalance>? balances { get; set; }
+}
+
+public class GateBalance
+{
+    public string? asset { get; set; }
+
+    public decimal free { get; set; }
+
+    public decimal locked { get; set; }
+
+    public decimal total { get; set; }
 }
