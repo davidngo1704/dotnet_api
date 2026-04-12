@@ -86,7 +86,7 @@ namespace Api.Controllers
 
             var gate = JsonSerializer.Deserialize<GateSpotModels>(data[7]?.data!, DefaultValue.JsonOption);
 
-            return Ok(new 
+            var result = new
             {
                 mexc,
                 kucoin,
@@ -96,7 +96,214 @@ namespace Api.Controllers
                 bybit,
                 bitget,
                 gate
-            });
+            };
+
+            var validCoin = new List<string>() {
+                "USDT",
+                "BTC",
+                "ETH",
+                "NEAR",
+                "TIA",
+                "WLD",
+                "ARB",
+                "ROBO",
+                "FLOW",
+                "HYPE",
+                "ONDO",
+                "FET",
+                "TAO",
+                "SUI",
+                "PAXG",
+                "SOL",
+                "BNB",
+                "XRP"
+            };
+
+            var resultData = new List<CoinModel>();
+
+            foreach (var item in result.mexc?.balances!)
+            {
+                if(validCoin.Contains(item.asset!))
+                {
+                    resultData.Add(new CoinModel()
+                    {
+                        asset = item.asset,
+                        total = item.available
+                    });
+                }
+            }
+
+            foreach (var item in result.kucoin?.balances!)
+            {
+                if (validCoin.Contains(item.currency!))
+                {
+                    var exist = resultData.FirstOrDefault(x => x.asset == item.currency);
+                    if(exist != null)
+                    {
+                        exist.total += item.available;
+                    }
+                    else
+                    {
+                        resultData.Add(new CoinModel()
+                        {
+                            asset = item.currency,
+                            total = item.available
+                        });
+                    }
+
+                }
+            }
+
+            foreach (var item in result.bingx!)
+            {
+                if (validCoin.Contains(item.asset!))
+                {
+                    var exist = resultData.FirstOrDefault(x => x.asset == item.asset);
+
+                    if (exist != null)
+                    {
+                        exist.total += item.total;
+                    }
+                    else
+                    {
+                        resultData.Add(new CoinModel()
+                        {
+                            asset = item.asset,
+                            total = item.total
+                        });
+                    }
+                }
+            }
+
+            foreach (var item in result.okx!)
+            {
+                if (validCoin.Contains(item.asset!))
+                {
+                    var exist = resultData.FirstOrDefault(x => x.asset == item.asset);
+
+                    if (exist != null)
+                    {
+                        exist.total += item.total;
+                    }
+                    else
+                    {
+                        resultData.Add(new CoinModel()
+                        {
+                            asset = item.asset,
+                            total = item.total
+                        });
+                    }
+                }
+            }
+
+            foreach (var item in result.binance!)
+            {
+                item.asset = item.asset?.Replace("LD", "");
+
+                if (validCoin.Contains(item.asset!))
+                {
+                    var exist = resultData.FirstOrDefault(x => x.asset == item.asset);
+
+                    if (exist != null)
+                    {
+                        exist.total += item.total;
+                    }
+                    else
+                    {
+                        resultData.Add(new CoinModel()
+                        {
+                            asset = item.asset,
+                            total = item.total
+                        });
+                    }
+                }
+            }
+
+            foreach (var item in result.bybit!)
+            {
+                if (validCoin.Contains(item.asset!))
+                {
+                    var exist = resultData.FirstOrDefault(x => x.asset == item.asset);
+
+                    if (exist != null)
+                    {
+                        exist.total += item.total;
+                    }
+                    else
+                    {
+                        resultData.Add(new CoinModel()
+                        {
+                            asset = item.asset,
+                            total = item.total
+                        });
+                    }
+                }
+            }
+
+            foreach (var item in result.bitget?.data!)
+            {
+                if (validCoin.Contains(item.coin!))
+                {
+                    var exist = resultData.FirstOrDefault(x => x.asset == item.coin);
+
+                    if (exist != null)
+                    {
+                        exist.total += item.available;
+                    }
+                    else
+                    {
+                        resultData.Add(new CoinModel()
+                        {
+                            asset = item.coin,
+                            total = item.available
+                        });
+                    }
+                }
+            }
+
+            foreach (var item in result.gate?.balances!)
+            {
+                if (validCoin.Contains(item.asset!))
+                {
+                    var exist = resultData.FirstOrDefault(x => x.asset == item.asset);
+
+                    if (exist != null)
+                    {
+                        exist.total += item.free;
+                    }
+                    else
+                    {
+                        resultData.Add(new CoinModel()
+                        {
+                            asset = item.asset,
+                            total = item.free
+                        });
+                    }
+                }
+            }
+
+            foreach (var item in resultData)
+            {
+                if(item.asset == "USDT")
+                {
+                    item.price = 1;
+                    item.value = item.total * item.price;
+                    continue;
+                }
+
+                var binancePrice = await _httpService.GetAsync<CoinPriceModel>($"https://api.binance.com/api/v3/ticker/price?symbol={item.asset}USDT");
+
+                if (binancePrice != null)
+                {
+                    item.price = binancePrice.price;
+
+                    item.value = item.total * item.price;
+                }
+            }
+
+            resultData = resultData.Where(x => x.value > 1).ToList();
+
+            return Ok(resultData);
         }
     }
 }

@@ -65,3 +65,15 @@ public class GateBalance
 
     public decimal total { get; set; }
 }
+public class CoinModel
+{
+    public string? asset { get; set; }
+    public decimal total { get; set; }
+    public decimal price { get; set; }
+    public decimal value { get; set; }
+}
+public class CoinPriceModel
+{
+    public string? symbol { get; set; }
+    public decimal price { get; set; }
+}
