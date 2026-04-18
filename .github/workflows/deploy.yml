@@ -17,4 +17,4 @@ jobs:
         run: docker compose up -d --build
       
       - name: Send Telegram notification
-        run: ./send_telegram.sh
+        run: bash send_telegram.sh
