@@ -7,6 +7,10 @@ namespace Api.Controllers
     [ApiController]
     public class OllamaController : ControllerBase
     {
-
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok("OllamaController is working!");
+        }
     }
 }
