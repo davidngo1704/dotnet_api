@@ -1,16 +1,15 @@
 ﻿using Api.Database;
 using Api.Database.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("[controller]/[action]")]
     [ApiController]
-    public class OllamaController : ControllerBase
+    public class UserController : ControllerBase
     {
         private readonly AppDbContext _db;
-        public OllamaController(AppDbContext db)
+        public UserController(AppDbContext db)
         {
             _db = db;
         }
@@ -26,7 +25,6 @@ namespace Api.Controllers
             _db.Users.Add(user);
 
             await _db.SaveChangesAsync();
-
 
             return Ok("OllamaController is working!");
         }

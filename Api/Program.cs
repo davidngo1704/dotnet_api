@@ -1,6 +1,8 @@
 
 using Api.Database;
 using Api.Libraries;
+using Api.Services.Implements;
+using Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +32,8 @@ builder.Services.AddTransient<IHttpService, HttpService>();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+
+builder.Services.AddTransient<IBlockchainService, BlockchainService>();
 
 var app = builder.Build();
 
