@@ -79,6 +79,6 @@ public class CoinPriceModel
 }
 public class CoinPriceResponse
 {
-    public List<CoinPriceModel>? data { get; set; }
     public string? datetime { get; set; }
+    public List<CoinPriceModel>? data { get; set; }
 }
