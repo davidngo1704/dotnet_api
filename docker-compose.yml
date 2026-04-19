@@ -13,6 +13,8 @@ services:
     networks:
       - shared_net
     restart: unless-stopped
+    volumes:
+      - /var/lib/ApiGateway:/var/lib/ApiGateway
 networks:
   shared_net:
     external: true
