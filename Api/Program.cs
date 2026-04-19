@@ -10,7 +10,7 @@ Environment.SetEnvironmentVariable(
     "/var/lib/ApiGateway/keys/service_account_google_cloud.json"
 );
 
-builder.Services.AddHostedService<RabbitMqConsumer>();
+//builder.Services.AddHostedService<RabbitMqConsumer>();
 
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
