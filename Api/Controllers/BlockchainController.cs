@@ -1,3 +1,5 @@
+using Api.Database;
+using Api.Database.Models;
 using Api.Libraries;
 using Api.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +12,11 @@ namespace Api.Controllers
     public class BlockchainController : ControllerBase
     {
         private readonly IHttpService _httpService;
-        public BlockchainController(IHttpService httpService)
+        private readonly AppDbContext _db;
+        public BlockchainController(IHttpService httpService, AppDbContext db)
         {
             _httpService = httpService;
+            _db = db;
         }
         [HttpGet]
         public async Task<IActionResult> GetBalance()
@@ -304,6 +308,22 @@ namespace Api.Controllers
             resultData = resultData.Where(x => x.value > 1).ToList();
 
             return Ok(resultData);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            var data = _db.TargetSymbols.ToList();
+
+            return Ok(data);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] TargetSymbol user)
+        {
+            _db.TargetSymbols.Add(user);
+
+            await _db.SaveChangesAsync();
+
+            return Ok("OllamaController is working!");
         }
     }
 }
