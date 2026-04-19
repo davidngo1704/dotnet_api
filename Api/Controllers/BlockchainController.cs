@@ -332,7 +332,7 @@ namespace Api.Controllers
         public async Task<IActionResult> TriggerMinute()
         {
             await _blockchainService.TriggerMinute();
-            return Ok();
+            return Ok(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
     }
 }
