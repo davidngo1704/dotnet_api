@@ -77,3 +77,8 @@ public class CoinPriceModel
     public string? symbol { get; set; }
     public decimal price { get; set; }
 }
+public class CoinPriceResponse
+{
+    public List<CoinPriceModel>? data { get; set; }
+    public string? datetime { get; set; }
+}
