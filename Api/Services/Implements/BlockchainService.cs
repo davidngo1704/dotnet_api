@@ -13,7 +13,7 @@ namespace Api.Services.Implements
         }
         public async Task TriggerMinute()
         {
-            var data = await _httpService.GetAsync<List<CoinPriceModel>>("https://api.binance.com/api/v3/ticker/price?symbol=WLDUSDT");
+            var data = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=WLDUSDT");
 
             var result = new CoinPriceResponse()
             {
