@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Environment.SetEnvironmentVariable(
-    "GOOGLE_APPLICATION_CREDENTIALS",
-    "/var/lib/ApiGateway/keys/service_account_google_cloud.json"
-);
+//Environment.SetEnvironmentVariable(
+//    "GOOGLE_APPLICATION_CREDENTIALS",
+//    "/var/lib/ApiGateway/keys/service_account_google_cloud.json"
+//);
 
 //builder.Services.AddHostedService<RabbitMqConsumer>();
 

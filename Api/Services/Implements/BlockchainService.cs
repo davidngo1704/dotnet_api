@@ -23,5 +23,9 @@ namespace Api.Services.Implements
 
             FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/price.json", System.Text.Json.JsonSerializer.Serialize(result));
         }
+
+
+
+
     }
 }
