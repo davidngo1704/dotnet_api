@@ -23,7 +23,10 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetPosition()
         {
-            var client = new BingXClient("vlFj2CjUeDH270a6of0Z0qgIhep7jgMRjCZmibYogTOecxHeFxokVu3VkOlF4Ru0u2XorIrljEiLc08DmxbTw", "XaBwLx9DnDIKgeKorcJCh0mZyuFSmA4iOojPDwhaGauf9Vi5uGoEwgji3JhGvZalHilJybIc8ZKQZTBchzPfQ");
+            var client = new BingXClient(
+                "tl77B8Cu3kD6qOO98qofzJb6M5dbTMl7KTL1ddUHREHCjvXxRp5ARHWq5j9uMGlguNyBNLIHaBYq16kQ",
+                "x0XW5WkWjWLxwHV4S2AQ9JlC64rvwgI7IIe0bdzh3qeXqR4lpRd2BakBwTeEIEG0QTPPmI5TfHDg6CtV6DQ"
+            );
 
             var result = await client.GetPositions();
             return Ok(result);
