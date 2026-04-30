@@ -18,7 +18,7 @@ namespace Api.Services.Implements
             var result = new CoinPriceResponse()
             {
                 data = data,
-                datetime = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss")
+                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
             };
 
             FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/price.json", System.Text.Json.JsonSerializer.Serialize(result));
