@@ -30,7 +30,7 @@ namespace Api.Services.Implements
 
             var resultBingx = await client.GetPositions();
 
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/bingx/result.json", System.Text.Json.JsonSerializer.Serialize(resultBingx));
+            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/bingx/result.json", resultBingx);
 
 
 
