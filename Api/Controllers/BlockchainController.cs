@@ -32,15 +32,16 @@ namespace Api.Controllers
             var result = await client.GetPositions();
             return Ok(result);
         }
-        [HttpPost]
-        public async Task<IActionResult> BinanceGetPosition([FromForm] KeyModel keyModel)
+        [HttpGet]
+        public async Task<IActionResult> BinanceGetPosition()
         {
             var client = new BinanceClient(
-                keyModel.ApiKey!,
-                keyModel.SecretKey!
+                "06MzlJ1aV3quq7f8WnBPp73iHLpNEkFgGBLTVFmjEJ0W29bLXIVNJ7WUgG64LnYb",
+                "rrof6lQsbXMTyeuSVkBbS1WbQWUnJbB7gotZgOND2TyFTmdnAtI5MdEUGUjWZzZI"
             );
-                
+
             var result = await client.GetSpotBalance();
+            
             return Ok(result);
         }
     }

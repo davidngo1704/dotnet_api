@@ -31,7 +31,19 @@ public class BinanceClient
         dynamic obj = JsonConvert.DeserializeObject(json);
         return (long)obj.serverTime;
     }
+    private long timeOffset = 0;
 
+    public async Task SyncTime()
+    {
+        var serverTime = await GetServerTime();
+        var localTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+
+        timeOffset = serverTime - localTime;
+    }
+    private long GetTimestamp()
+    {
+        return DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + timeOffset;
+    }
     // 2. Tạo chữ ký HMAC SHA256
     private string CreateSignature(string queryString)
     {
@@ -48,11 +60,9 @@ public class BinanceClient
     // 3. Lấy số dư Spot Account
     public async Task<string> GetSpotBalance()
     {
-        // ⚠️ Binance rất nhạy timestamp → nên sync
-        long serverTime = await GetServerTime();
+        long timestamp = GetTimestamp();
 
-        // optional: thêm recvWindow để tránh lệch time
-        string query = $"timestamp={serverTime}&recvWindow=5000";
+        string query = $"timestamp={timestamp}&recvWindow=5000";
 
         string signature = CreateSignature(query);
 
