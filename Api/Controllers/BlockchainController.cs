@@ -1,5 +1,6 @@
 
 using Api.Libraries;
+using Api.Models;
 using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ namespace Api.Controllers
             return Ok(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         [HttpGet]
-        public async Task<IActionResult> GetPosition()
+        public async Task<IActionResult> BingxGetPosition()
         {
             var client = new BingXClient(
                 "tl77B8Cu3kD6qOO98qofzJb6M5dbTMl7KTL1ddUHREHCjvXxRp5ARHWq5j9uMGlguNyBNLIHaBYq16kQ",
@@ -29,6 +30,17 @@ namespace Api.Controllers
             );
 
             var result = await client.GetPositions();
+            return Ok(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> BinanceGetPosition([FromForm] KeyModel keyModel)
+        {
+            var client = new BinanceClient(
+                keyModel.ApiKey!,
+                keyModel.SecretKey!
+            );
+                
+            var result = await client.GetSpotBalance();
             return Ok(result);
         }
     }

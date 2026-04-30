@@ -82,3 +82,9 @@ public class CoinPriceResponse
     public string? datetime { get; set; }
     public CoinPriceModel? data { get; set; }
 }
+public class KeyModel
+{
+    public string? ApiKey { get; set; }
+    public string? SecretKey { get; set; }
+
+}
