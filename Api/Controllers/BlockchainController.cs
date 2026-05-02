@@ -28,6 +28,12 @@ namespace Api.Controllers
             return Ok(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         [HttpGet]
+        public async Task<IActionResult> TriggerHour()
+        {
+            await _blockchainService.TriggerHour();
+            return Ok(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+        }
+        [HttpGet]
         public async Task<IActionResult> BingxGetPosition()
         {
             var client = new BingXClient(
