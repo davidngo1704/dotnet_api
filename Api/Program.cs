@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 //builder.Services.AddHostedService<RabbitMqConsumer>();
 
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 builder.Services.AddCors(options =>

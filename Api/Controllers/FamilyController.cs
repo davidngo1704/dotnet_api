@@ -1,5 +1,7 @@
 ﻿using Api.Database;
 using Api.Database.Models;
+using Api.Models.ApplicationModels;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -9,22 +11,36 @@ namespace Api.Controllers
     public class FamilyController : ControllerBase
     {
         private readonly AppDbContext _db;
-        public FamilyController(AppDbContext db)
+        private readonly IMapper _mapper;
+
+        public FamilyController(AppDbContext db, IMapper mapper)
         {
             _db = db;
+            _mapper = mapper;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetTop1000()
         {
-            var data = _db.Humans.ToList();
+            var data = _db.Humans.Take(1000).ToList();
             return Ok(data);
         }
         [HttpGet]
         public async Task<IActionResult> Init()
         {
-            
+            var existItem = _db.Humans.FirstOrDefault(m => m.Email == "davidngo1704@gmal.com");
+
+            if (existItem != null)
+            {
+                return Ok();
+            }
+
             var wife = new Human()
             {
+                Email = "Wife",
+                FullName = "Wife",
+                Info = "Wife",
+                UserName = "Wife",
+                Password = "WifeOfNgoThanhDai@1998",
                 ChiTieu = 10100100,
                 Salary = 20200200,
             };
@@ -40,21 +56,48 @@ namespace Api.Controllers
                 PhoneNumber = "0965001740",
                 UserName = "davidngo1704",
                 WebSiteLink = "https://thanhdai1704.web.app/#/",
-            };;
+            };
+            var mother = new Human()
+            {
+                ChiTieu = 5001001,
+                Salary = 5001001,
+                Password = "MotherOfNgoThanhDai@1998",
+                Email = "Mother",
+                FullName = "Nguyễn Thị Vui",
+                Info = "Mother",
+                UserName = "VuiNguyen1976",
+                PhoneNumber = "0949164429",
+                FacebookLink = "https://www.facebook.com/vui.nguyen.334512"
+            };
             var con1 = new Human()
             {
                 ChiTieu = 5001001,
                 Salary = 5001001,
+                Password = "ConOneOfNgoThanhDai@1998",
+                Email = "Con1",
+                FullName = "Con1",
+                Info = "Con1",
+                UserName = "Con1",
             };
             var con2 = new Human()
             {
                 ChiTieu = 5001001,
                 Salary = 5001001,
+                Password = "ConTwoOfNgoThanhDai@1998",
+                Email = "Con2",
+                FullName = "Con2",
+                Info = "Con2",
+                UserName = "Con2",
             };
             var con3 = new Human()
             {
                 ChiTieu = 5001001,
                 Salary = 5001001,
+                Password = "ConThreeOfNgoThanhDai@1998",
+                Email = "Con3",
+                FullName = "Con3",
+                Info = "Con3",
+                UserName = "Con3",
             };
 
             _db.Humans.Add(wife);
@@ -67,5 +110,18 @@ namespace Api.Controllers
 
             return Ok("ok");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit([FromBody] HumanEditModel human)
+        {
+            var data = _db.Humans.FirstOrDefault(m => m.Id == human.Id);
+
+            _mapper.Map(human, data);
+
+            await _db.SaveChangesAsync();
+
+            return Ok(data);
+        }
+
     }
 }
