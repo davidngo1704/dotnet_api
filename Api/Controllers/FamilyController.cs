@@ -14,8 +14,15 @@ namespace Api.Controllers
             _db = db;
         }
         [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var data = _db.Humans.ToList();
+            return Ok(data);
+        }
+        [HttpGet]
         public async Task<IActionResult> Init()
         {
+            
             var wife = new Human()
             {
                 ChiTieu = 10100100,
