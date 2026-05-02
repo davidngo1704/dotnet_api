@@ -13,7 +13,7 @@ namespace Api.Services.Implements
         }
         public async Task TriggerMinute()
         {
-            var dataBTC = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=WLDUSDT");
+            var dataBTC = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
 
             var resultBTC = new CoinPriceResponse()
             {
@@ -42,7 +42,7 @@ namespace Api.Services.Implements
             //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/result.json", resultBinance);
 
 
-            var dataETH = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=WLDUSDT");
+            var dataETH = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT");
 
             var resultETH = new CoinPriceResponse()
             {
