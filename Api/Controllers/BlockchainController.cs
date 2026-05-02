@@ -22,6 +22,12 @@ namespace Api.Controllers
             return Ok(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
         }
         [HttpGet]
+        public async Task<IActionResult> TriggerTenMinute()
+        {
+            await _blockchainService.TriggerTenMinute();
+            return Ok(DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss"));
+        }
+        [HttpGet]
         public async Task<IActionResult> BingxGetPosition()
         {
             var client = new BingXClient(
