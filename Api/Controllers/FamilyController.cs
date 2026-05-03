@@ -18,12 +18,14 @@ namespace Api.Controllers
             _db = db;
             _mapper = mapper;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetTop1000()
         {
             var data = _db.Humans.Take(1000).ToList();
             return Ok(data);
         }
+
         [HttpGet]
         public async Task<IActionResult> Init()
         {
@@ -75,7 +77,7 @@ namespace Api.Controllers
                 Salary = 5001001,
                 Password = "ConOneOfNgoThanhDai@1998",
                 Email = "Con1",
-                FullName = "Con1",
+                FullName = "Ngô Thành Lộc",
                 Info = "Con1",
                 UserName = "Con1",
             };
@@ -85,7 +87,7 @@ namespace Api.Controllers
                 Salary = 5001001,
                 Password = "ConTwoOfNgoThanhDai@1998",
                 Email = "Con2",
-                FullName = "Con2",
+                FullName = "Ngô Thành Lực",
                 Info = "Con2",
                 UserName = "Con2",
             };
@@ -95,7 +97,7 @@ namespace Api.Controllers
                 Salary = 5001001,
                 Password = "ConThreeOfNgoThanhDai@1998",
                 Email = "Con3",
-                FullName = "Con3",
+                FullName = "Ngô Khả Vi",
                 Info = "Con3",
                 UserName = "Con3",
             };
@@ -121,6 +123,7 @@ namespace Api.Controllers
             await _db.SaveChangesAsync();
 
             return Ok(data);
+
         }
 
     }

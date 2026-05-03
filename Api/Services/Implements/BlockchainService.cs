@@ -52,6 +52,18 @@ namespace Api.Services.Implements
 
             FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceETH.json", System.Text.Json.JsonSerializer.Serialize(resultETH));
 
+
+
+            var dataPAXG = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=PAXGUSDT");
+
+            var resultPAXG = new CoinPriceResponse()
+            {
+                data = dataPAXG,
+                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            };
+
+            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/pricePAXG.json", System.Text.Json.JsonSerializer.Serialize(resultPAXG));
+
         }
 
         public async Task TriggerTenMinute()
