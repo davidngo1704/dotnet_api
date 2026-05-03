@@ -1,4 +1,6 @@
-﻿namespace Api.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace Api.Models;
 
 public class MexcSpotModels
 {
@@ -128,4 +130,88 @@ public class Balance
     public decimal Free { get; set; }
     public decimal Locked { get; set; }
     public decimal Price { get; set; }
+}
+//--------------Bingx
+public class BingxApiResponse
+{
+    [JsonPropertyName("code")]
+    public int Code { get; set; }
+
+    [JsonPropertyName("msg")]
+    public string Msg { get; set; }
+
+    [JsonPropertyName("data")]
+    public List<Position> Data { get; set; }
+}
+
+public class Position
+{
+    [JsonPropertyName("positionId")]
+    public string PositionId { get; set; }
+
+    [JsonPropertyName("symbol")]
+    public string Symbol { get; set; }
+
+    [JsonPropertyName("currency")]
+    public string Currency { get; set; }
+
+    [JsonPropertyName("positionAmt")]
+    public string PositionAmt { get; set; }
+
+    [JsonPropertyName("availableAmt")]
+    public string AvailableAmt { get; set; }
+
+    [JsonPropertyName("positionSide")]
+    public string PositionSide { get; set; }
+
+    [JsonPropertyName("isolated")]
+    public bool Isolated { get; set; }
+
+    [JsonPropertyName("avgPrice")]
+    public string AvgPrice { get; set; }
+
+    [JsonPropertyName("initialMargin")]
+    public string InitialMargin { get; set; }
+
+    [JsonPropertyName("margin")]
+    public string Margin { get; set; }
+
+    [JsonPropertyName("leverage")]
+    public int Leverage { get; set; }
+
+    [JsonPropertyName("unrealizedProfit")]
+    public string UnrealizedProfit { get; set; }
+
+    [JsonPropertyName("realisedProfit")]
+    public string RealisedProfit { get; set; }
+
+    [JsonPropertyName("liquidationPrice")]
+    public decimal LiquidationPrice { get; set; }
+
+    [JsonPropertyName("pnlRatio")]
+    public string PnlRatio { get; set; }
+
+    [JsonPropertyName("maxMarginReduction")]
+    public string MaxMarginReduction { get; set; }
+
+    [JsonPropertyName("riskRate")]
+    public string RiskRate { get; set; }
+
+    [JsonPropertyName("markPrice")]
+    public string MarkPrice { get; set; }
+
+    [JsonPropertyName("positionValue")]
+    public string PositionValue { get; set; }
+
+    [JsonPropertyName("onlyOnePosition")]
+    public bool OnlyOnePosition { get; set; }
+
+    [JsonPropertyName("createTime")]
+    public long CreateTime { get; set; }
+
+    [JsonPropertyName("updateTime")]
+    public long UpdateTime { get; set; }
+
+    [JsonPropertyName("minIncreaseMargin")]
+    public string MinIncreaseMargin { get; set; }
 }

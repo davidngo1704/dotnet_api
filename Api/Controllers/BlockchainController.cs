@@ -50,8 +50,27 @@ namespace Api.Controllers
                 "x0XW5WkWjWLxwHV4S2AQ9JlC64rvwgI7IIe0bdzh3qeXqR4lpRd2BakBwTeEIEG0QTPPmI5TfHDg6CtV6DQ"
             );
 
-            var result = await client.GetPositions();
-            return Ok(result);
+            var resultString = await client.GetPositions();
+
+            var result = JsonConvert.DeserializeObject<BingxApiResponse>(resultString);
+
+            var finalResult = new List<object>();
+
+            foreach (var item in result?.Data!)
+            {
+                finalResult.Add(new
+                {
+                    Symbol = item.Symbol,
+                    TaiXiu = item.PositionSide == "LONG" ? "LONG" : "SHORT",
+                    LaiLo = item.UnrealizedProfit,
+                    GiaThanhLy = item.LiquidationPrice,
+                    GiaDanhDau = item.MarkPrice,
+                    GiaVaoLenh = item.AvgPrice,
+                    DonBay = item.Leverage,
+                });
+            }
+
+            return Ok(finalResult);
         }
         [HttpGet]
         public async Task<IActionResult> BinanceGetPosition()
