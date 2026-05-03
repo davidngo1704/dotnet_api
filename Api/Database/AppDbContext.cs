@@ -6,6 +6,7 @@ namespace Api.Database;
 public class AppDbContext : DbContext
 {
     public DbSet<User> Users => Set<User>();
+    public DbSet<DynamcData> DynamcDatas => Set<DynamcData>();
     public DbSet<Human> Humans => Set<Human>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<TargetSymbol> TargetSymbols => Set<TargetSymbol>();

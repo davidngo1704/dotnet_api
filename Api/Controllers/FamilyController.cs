@@ -113,7 +113,7 @@ namespace Api.Controllers
             return Ok("ok");
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> Edit([FromBody] HumanEditModel human)
         {
             var data = _db.Humans.FirstOrDefault(m => m.Id == human.Id);
@@ -123,8 +123,29 @@ namespace Api.Controllers
             await _db.SaveChangesAsync();
 
             return Ok(data);
-
         }
 
-    }
+        [HttpPut]
+        public async Task<IActionResult> Add([FromBody] HumanAddModel human)
+        {
+            var data = _mapper.Map<Human>(human);
+
+            _db.Humans.Add(data);
+
+            await _db.SaveChangesAsync();
+
+            return Ok(data);
+        }
+        [HttpDelete]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var data = _db.Humans.FirstOrDefault(m => m.Id == id);
+            if (data == null)
+            {
+                return NotFound();
+            }
+            _db.Humans.Remove(data);
+            await _db.SaveChangesAsync();
+            return Ok();
+        }
 }
