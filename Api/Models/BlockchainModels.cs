@@ -88,3 +88,44 @@ public class KeyModel
     public string? SecretKey { get; set; }
 
 }
+//---------Binance
+public class AccountInfo
+{
+    public int MakerCommission { get; set; }
+    public int TakerCommission { get; set; }
+    public int BuyerCommission { get; set; }
+    public int SellerCommission { get; set; }
+
+    public CommissionRates? CommissionRates { get; set; }
+
+    public bool CanTrade { get; set; }
+    public bool CanWithdraw { get; set; }
+    public bool CanDeposit { get; set; }
+    public bool Brokered { get; set; }
+    public bool RequireSelfTradePrevention { get; set; }
+    public bool PreventSor { get; set; }
+
+    public long UpdateTime { get; set; }
+    public string? AccountType { get; set; }
+
+    public List<Balance>? Balances { get; set; }
+
+    public List<string>? Permissions { get; set; }
+    public long Uid { get; set; }
+}
+
+public class CommissionRates
+{
+    public decimal Maker { get; set; }
+    public decimal Taker { get; set; }
+    public decimal Buyer { get; set; }
+    public decimal Seller { get; set; }
+}
+
+public class Balance
+{
+    public string? Asset { get; set; }
+    public decimal Free { get; set; }
+    public decimal Locked { get; set; }
+    public decimal Price { get; set; }
+}

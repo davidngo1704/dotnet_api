@@ -3,6 +3,8 @@ using Api.Libraries;
 using Api.Models;
 using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Api.Controllers
 {
@@ -11,9 +13,16 @@ namespace Api.Controllers
     public class BlockchainController : ControllerBase
     {
         private readonly IBlockchainService _blockchainService;
-        public BlockchainController(IBlockchainService blockchainService)
+        private readonly IHttpService _httpService;
+
+        public BlockchainController(
+            IBlockchainService blockchainService,
+            IHttpService httpService
+
+            )
         {
             _blockchainService = blockchainService;
+            _httpService = httpService;
         }
         [HttpGet]
         public async Task<IActionResult> TriggerMinute()
@@ -53,8 +62,42 @@ namespace Api.Controllers
             );
 
             var result = await client.GetSpotBalance();
-            
-            return Ok(result);
+
+            var data = JsonConvert.DeserializeObject<AccountInfo>(result);
+
+            var resultReal = new List<Balance>();
+
+            if (data?.Balances != null)
+            {
+                foreach (var item in data.Balances)
+                {
+                    if (item.Free > 0)
+                    {
+                        if (item.Asset != null && item.Asset.StartsWith("LD"))
+                        {
+                            item.Asset = item.Asset.Replace("LD", "");
+                        }
+
+                        if(item.Asset == "USDT")
+                        {
+                            item.Price = 1;
+                            resultReal.Add(item);
+                            continue;
+                        }
+
+                        var dataPrice = await _httpService.GetAsync<CoinPriceModel>(@$"https://api.binance.com/api/v3/ticker/price?symbol={item.Asset}USDT");
+
+                        item.Price = dataPrice?.price ?? 0;
+
+                        resultReal.Add(item);
+                    }
+                }
+            }
+
+            return Ok(new {
+                Total = resultReal.Sum(x => x.Free * x.Price),
+                Coin = resultReal,
+            });
         }
     }
 }

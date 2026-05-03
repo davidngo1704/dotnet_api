@@ -45,7 +45,8 @@ namespace Api.Libraries
             }
             catch (Exception ex)
             {
-                throw;
+                Console.WriteLine($"Error during GET request to {url}: {ex.Message}");
+                return default;
             }
         }
 
