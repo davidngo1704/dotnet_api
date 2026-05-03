@@ -27,7 +27,6 @@ public class GateClient
     {
         httpClient.DefaultRequestHeaders.Clear();
         httpClient.DefaultRequestHeaders.Add("X-Gate-Access-Key", apiKey);
-        httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
     }
 
     // 1. Lấy server time từ Gate.io
@@ -37,7 +36,7 @@ public class GateClient
         var json = await res.Content.ReadAsStringAsync();
 
         dynamic obj = JsonConvert.DeserializeObject(json);
-        return (long)obj.server_time * 1000; // Convert seconds to milliseconds
+        return (long)obj.server_time; // Server time đã là milliseconds
     }
 
     // 2. Sync thời gian với server Gate.io
@@ -94,8 +93,8 @@ public class GateClient
     {
         try
         {
-            long timestamp = GetTimestamp();
-            string timestampStr = (timestamp / 1000).ToString(); // Gate.io sử dụng seconds
+            long timestampMs = GetTimestamp(); // Milliseconds
+            string timestampStr = timestampMs.ToString(); // Gate.io API v4 sử dụng milliseconds
 
             string requestPath = "/api/v4/spot/accounts";
             string method = "GET";
@@ -104,20 +103,22 @@ public class GateClient
 
             string signature = CreateSignature(timestampStr, method, requestPath, body, queryString);
 
-            httpClient.DefaultRequestHeaders.Remove("X-Gate-Access-Sign");
-            httpClient.DefaultRequestHeaders.Add("X-Gate-Access-Sign", signature);
-            httpClient.DefaultRequestHeaders.Remove("X-Gate-Access-Timestamp");
-            httpClient.DefaultRequestHeaders.Add("X-Gate-Access-Timestamp", timestampStr);
-
-            string url = $"{BASE_URL}{requestPath}";
-            var res = await httpClient.GetAsync(url);
-
-            if (!res.IsSuccessStatusCode)
+            using (var request = new HttpRequestMessage(HttpMethod.Get, $"{BASE_URL}{requestPath}"))
             {
-                throw new Exception($"Gate.io API Error: {res.StatusCode}");
-            }
+                request.Headers.Add("X-Gate-Access-Key", apiKey);
+                request.Headers.Add("X-Gate-Access-Sign", signature);
+                request.Headers.Add("Timestamp", timestampStr);
 
-            return await res.Content.ReadAsStringAsync();
+                var res = await httpClient.SendAsync(request);
+
+                if (!res.IsSuccessStatusCode)
+                {
+                    var errorContent = await res.Content.ReadAsStringAsync();
+                    throw new Exception($"Gate.io API Error: {res.StatusCode} - {errorContent}");
+                }
+
+                return await res.Content.ReadAsStringAsync();
+            }
         }
         catch (Exception ex)
         {
