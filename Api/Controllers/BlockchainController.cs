@@ -119,16 +119,5 @@ namespace Api.Controllers
                 Coin = resultReal,
             });
         }
-        [HttpGet]
-        public async Task<IActionResult> GateGetPosition()
-        {
-            var client = new GateClient(
-                "fbb928647a0b6dceaaafb553f4eff6ba",
-                "c13133a956c20e1c0a5e06c60b142717ca59f4c63f5108fef8edd456a7124d44"
-            );
-            var resultString = await client.GetSpotBalance();
-
-            return Ok(resultString);
-        }
     }
 }
