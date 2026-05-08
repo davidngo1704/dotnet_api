@@ -3,9 +3,12 @@ using Api.Database;
 using Api.Libraries;
 using Api.Services.Implements;
 using Api.Services.Interfaces;
+using Api.Worker;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHostedService<MinuteWorker>();
 
 //Environment.SetEnvironmentVariable(
 //    "GOOGLE_APPLICATION_CREDENTIALS",
