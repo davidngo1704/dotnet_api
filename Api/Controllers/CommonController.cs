@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Libraries;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -17,6 +18,10 @@ namespace Api.Controllers
         {
             var key = _config["ASPNETCORE_ENVIRONMENT"];
 
+            if (key == "Production") {
+
+                var data = FileHelper.ReadFromFile("");
+            }
 
             return Ok(key);
         }
