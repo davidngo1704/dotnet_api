@@ -4,13 +4,17 @@ using Api.Services.Interfaces;
 
 namespace Api.Services.Implements
 {
+
     public class BlockchainService : IBlockchainService
     {
+
         private readonly IHttpService _httpService;
+
         public BlockchainService(IHttpService httpService)
         {
             _httpService = httpService;
         }
+
         public async Task TriggerMinute()
         {
             var dataBTC = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
