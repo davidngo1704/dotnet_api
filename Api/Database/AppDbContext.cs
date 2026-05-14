@@ -10,8 +10,6 @@ public class AppDbContext : DbContext
     public DbSet<Human> Humans => Set<Human>();
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<TargetSymbol> TargetSymbols => Set<TargetSymbol>();
-    public DbSet<EmbeddingVector> EmbeddingVectors => Set<EmbeddingVector>();
-
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
