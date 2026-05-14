@@ -71,6 +71,19 @@ namespace Api.Services.Implements
             FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/pricePAXG.json", System.Text.Json.JsonSerializer.Serialize(resultPAXG));
 
 
+            var dataXAG = await _httpService.GetAsync<CoinPriceModel>("https://fapi.binance.com/fapi/v1/ticker/price?symbol=XAGUSDT");
+
+            var resultXAG = new CoinPriceResponse()
+            {
+                data = dataXAG,
+                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            };
+
+            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceXAG.json", System.Text.Json.JsonSerializer.Serialize(resultXAG));
+
+
+
+
             var dataARB = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ARBUSDT");
 
             var resultARB = new CoinPriceResponse()
