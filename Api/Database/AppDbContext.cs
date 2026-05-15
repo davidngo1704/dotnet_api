@@ -11,7 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Role> Roles => Set<Role>();
     public DbSet<TargetSymbol> TargetSymbols => Set<TargetSymbol>();
     public DbSet<Token> Tokens => Set<Token>();
-    
+    public DbSet<Product> Products => Set<Product>();
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
