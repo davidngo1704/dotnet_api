@@ -4,7 +4,6 @@ using Api.Models;
 using Api.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System.Text.Json.Serialization;
 
 namespace Api.Controllers
 {
