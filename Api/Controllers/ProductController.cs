@@ -25,6 +25,7 @@ namespace Api.Controllers
             var data = _db.Products.Take(1000).ToList();
             return Ok(data);
         }
+
         [HttpGet]
         public async Task<IActionResult> SearchTop1000(string search, string tableName)
         {
@@ -41,7 +42,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Edit([FromBody] HumanEditModel obj)
+        public async Task<IActionResult> Edit([FromBody] ProductEditModel obj)
         {
             var data = _db.Products.FirstOrDefault(m => m.Id == obj.Id);
 
@@ -53,9 +54,9 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody] DynamcDataAddModel obj)
+        public async Task<IActionResult> Add([FromBody] ProductAddModel obj)
         {
-            var data = _mapper.Map<DynamcData>(obj);
+            var data = _mapper.Map<Product>(obj);
 
             _db.Products.Add(data);
 
