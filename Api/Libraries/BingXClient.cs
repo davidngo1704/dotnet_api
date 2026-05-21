@@ -60,4 +60,36 @@ public class BingXClient
         var res = await httpClient.GetAsync(url);
         return await res.Content.ReadAsStringAsync();
     }
+
+    // 4. Đóng vị thế futures
+    public async Task<string> ClosePosition(string positionId, string symbol)
+    {
+        if (string.IsNullOrEmpty(positionId))
+            throw new ArgumentException("Position ID cannot be empty", nameof(positionId));
+
+        if (string.IsNullOrEmpty(symbol))
+            throw new ArgumentException("Symbol cannot be empty", nameof(symbol));
+
+        long timestamp = await GetServerTime();
+
+        // Tạo request body
+        var requestBody = new
+        {
+            positionId = positionId,
+            symbol = symbol,
+            timestamp = timestamp
+        };
+
+        string jsonBody = JsonConvert.SerializeObject(requestBody);
+        string signature = CreateSignature(jsonBody);
+
+        // Tạo URL với signature
+        string url = $"{BASE_URL}/openApi/swap/v2/user/positions/close?signature={signature}";
+
+        // Gửi POST request
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+        var res = await httpClient.PostAsync(url, content);
+
+        return await res.Content.ReadAsStringAsync();
+    }
 }

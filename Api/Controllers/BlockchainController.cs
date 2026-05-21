@@ -68,6 +68,7 @@ namespace Api.Controllers
                     GiaDanhDau = item.MarkPrice,
                     GiaVaoLenh = item.AvgPrice,
                     DonBay = item.Leverage,
+                    PositionId = item.PositionId,
                 });
             }
 
@@ -78,31 +79,20 @@ namespace Api.Controllers
         public async Task<IActionResult> BingxClosePosition()
         {
             var client = new BingXClient(
-                "tl77B8Cu3kD6qOO98qofzJb6M5dbTMl7KTL1ddUHREHCjvXxRp5ARHWq5j9uMGlguNyBNLIHaBYq16kQ",
-                "x0XW5WkWjWLxwHV4S2AQ9JlC64rvwgI7IIe0bdzh3qeXqR4lpRd2BakBwTeEIEG0QTPPmI5TfHDg6CtV6DQ"
+                "WRBgQMeHgEedbetPMNljc9ui6qiLMnc5mwB9e4Ah5epuS3ySGnVuW9oBuIf4ieeg1DtPzRSYoHRG7aD9Z5Wig",
+                "8t7Ew6VhUSELZ4rbS8sFvTPvPwH6amOOoP5IniLckMfhdf7Qw9C1VGcGZTeaZGVuCo90ETCY18hFuGc4Anig"
             );
 
             var resultString = await client.GetPositions();
 
             var result = JsonConvert.DeserializeObject<BingxApiResponse>(resultString);
 
-            var finalResult = new List<object>();
-
             foreach (var item in result?.Data!)
             {
-                finalResult.Add(new
-                {
-                    Symbol = item.Symbol,
-                    TaiXiu = item.PositionSide == "LONG" ? "LONG" : "SHORT",
-                    LaiLo = item.UnrealizedProfit,
-                    GiaThanhLy = item.LiquidationPrice,
-                    GiaDanhDau = item.MarkPrice,
-                    GiaVaoLenh = item.AvgPrice,
-                    DonBay = item.Leverage,
-                });
+                await client.ClosePosition(item.PositionId, item.Symbol);
             }
 
-            return Ok(finalResult);
+            return Ok();
         }
         [HttpGet]
         public async Task<IActionResult> BingxShort()
