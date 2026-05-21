@@ -79,28 +79,42 @@ namespace Api.Controllers
         public async Task<IActionResult> BingxClosePosition()
         {
             var client = new BingXClient(
-                "WRBgQMeHgEedbetPMNljc9ui6qiLMnc5mwB9e4Ah5epuS3ySGnVuW9oBuIf4ieeg1DtPzRSYoHRG7aD9Z5Wig",
-                "8t7Ew6VhUSELZ4rbS8sFvTPvPwH6amOOoP5IniLckMfhdf7Qw9C1VGcGZTeaZGVuCo90ETCY18hFuGc4Anig"
+                "tl77B8Cu3kD6qOO98qofzJb6M5dbTMl7KTL1ddUHREHCjvXxRp5ARHWq5j9uMGlguNyBNLIHaBYq16kQ",
+                "x0XW5WkWjWLxwHV4S2AQ9JlC64rvwgI7IIe0bdzh3qeXqR4lpRd2BakBwTeEIEG0QTPPmI5TfHDg6CtV6DQ"
             );
 
             var resultString = await client.GetPositions();
 
             var result = JsonConvert.DeserializeObject<BingxApiResponse>(resultString);
 
+            var closeResults = new List<object>();
+
             foreach (var item in result?.Data!)
             {
-                await client.ClosePosition(item.PositionId, item.Symbol);
+                client = new BingXClient(
+                    "WRBgQMeHgEedbetPMNljc9ui6qiLMnc5mwB9e4Ah5epuS3ySGnVuW9oBuIf4ieeg1DtPzRSYoHRG7aD9Z5Wig",
+                    "8t7Ew6VhUSELZ4rbS8sFvTPvPwH6amOOoP5IniLckMfhdf7Qw9C1VGcGZTeaZGVuCo90ETCY18hFuGc4Anig"
+                );
+
+                var res = await client.ClosePosition(item.PositionId, item.Symbol);
+                closeResults.Add(new
+                {
+                    positionId = item.PositionId,
+                    symbol = item.Symbol,
+                    response = res
+                });
             }
 
-            return Ok();
+            return Ok(closeResults);
         }
         [HttpGet]
         public async Task<IActionResult> BingxShort()
         {
             var client = new BingXClient(
-                "tl77B8Cu3kD6qOO98qofzJb6M5dbTMl7KTL1ddUHREHCjvXxRp5ARHWq5j9uMGlguNyBNLIHaBYq16kQ",
-                "x0XW5WkWjWLxwHV4S2AQ9JlC64rvwgI7IIe0bdzh3qeXqR4lpRd2BakBwTeEIEG0QTPPmI5TfHDg6CtV6DQ"
+                "WRBgQMeHgEedbetPMNljc9ui6qiLMnc5mwB9e4Ah5epuS3ySGnVuW9oBuIf4ieeg1DtPzRSYoHRG7aD9Z5Wig",
+                "8t7Ew6VhUSELZ4rbS8sFvTPvPwH6amOOoP5IniLckMfhdf7Qw9C1VGcGZTeaZGVuCo90ETCY18hFuGc4Anig"
             );
+
 
             var resultString = await client.GetPositions();
 
@@ -128,31 +142,26 @@ namespace Api.Controllers
         public async Task<IActionResult> BingxLong()
         {
             var client = new BingXClient(
-                "tl77B8Cu3kD6qOO98qofzJb6M5dbTMl7KTL1ddUHREHCjvXxRp5ARHWq5j9uMGlguNyBNLIHaBYq16kQ",
-                "x0XW5WkWjWLxwHV4S2AQ9JlC64rvwgI7IIe0bdzh3qeXqR4lpRd2BakBwTeEIEG0QTPPmI5TfHDg6CtV6DQ"
+                "WRBgQMeHgEedbetPMNljc9ui6qiLMnc5mwB9e4Ah5epuS3ySGnVuW9oBuIf4ieeg1DtPzRSYoHRG7aD9Z5Wig",
+                "8t7Ew6VhUSELZ4rbS8sFvTPvPwH6amOOoP5IniLckMfhdf7Qw9C1VGcGZTeaZGVuCo90ETCY18hFuGc4Anig"
             );
 
-            var resultString = await client.GetPositions();
+            // Mở lệnh Long với leverage mặc định
+            var resultLong = await client.OpenPosition("BTC-USDT", "LONG", 1m);
 
-            var result = JsonConvert.DeserializeObject<BingxApiResponse>(resultString);
+            // Mở lệnh Short với leverage 5x
+            var resultShort = await client.OpenPosition("ETH-USDT", "SHORT", 2m, leverage: 5m);
 
-            var finalResult = new List<object>();
+            // Mở lệnh Long với client order ID để track
+            var resultWithId = await client.OpenPosition(
+                "BTC-USDT",
+                "LONG",
+                1m,
+                leverage: 3m,
+                clientOrderId: "order_12345"
+            );
 
-            foreach (var item in result?.Data!)
-            {
-                finalResult.Add(new
-                {
-                    Symbol = item.Symbol,
-                    TaiXiu = item.PositionSide == "LONG" ? "LONG" : "SHORT",
-                    LaiLo = item.UnrealizedProfit,
-                    GiaThanhLy = item.LiquidationPrice,
-                    GiaDanhDau = item.MarkPrice,
-                    GiaVaoLenh = item.AvgPrice,
-                    DonBay = item.Leverage,
-                });
-            }
-
-            return Ok(finalResult);
+            return Ok();
         }
 
 

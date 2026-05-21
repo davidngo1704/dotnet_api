@@ -72,19 +72,61 @@ public class BingXClient
 
         long timestamp = await GetServerTime();
 
-        // Tạo request body
-        var requestBody = new
+        // Tạo query string để ký
+        string query = $"positionId={positionId}&symbol={symbol}&timestamp={timestamp}";
+        string signature = CreateSignature(query);
+
+        // Tạo URL với signature - sử dụng GET method
+        string url = $"{BASE_URL}/openApi/swap/v2/user/positions?{query}&signature={signature}";
+
+        // Gửi GET request
+        var res = await httpClient.GetAsync(url);
+
+        return await res.Content.ReadAsStringAsync();
+    }
+
+    // 5. Mở lệnh Long/Short
+    public async Task<string> OpenPosition(string symbol, string side, decimal quantity, decimal? leverage = null, string? clientOrderId = null)
+    {
+        if (string.IsNullOrEmpty(symbol))
+            throw new ArgumentException("Symbol cannot be empty", nameof(symbol));
+
+        if (string.IsNullOrEmpty(side))
+            throw new ArgumentException("Side cannot be empty", nameof(side));
+
+        if (side != "LONG" && side != "SHORT")
+            throw new ArgumentException("Side must be 'LONG' or 'SHORT'", nameof(side));
+
+        if (quantity <= 0)
+            throw new ArgumentException("Quantity must be greater than 0", nameof(quantity));
+
+        if (leverage.HasValue && leverage <= 0)
+            throw new ArgumentException("Leverage must be greater than 0", nameof(leverage));
+
+        long timestamp = await GetServerTime();
+
+        // Xây dựng request body
+        var requestBody = new Dictionary<string, object>
         {
-            positionId = positionId,
-            symbol = symbol,
-            timestamp = timestamp
+            { "symbol", symbol },
+            { "side", side },
+            { "quantity", quantity },
+            { "timestamp", timestamp }
         };
 
+        if (leverage.HasValue)
+            requestBody["leverage"] = leverage;
+
+        if (!string.IsNullOrEmpty(clientOrderId))
+            requestBody["clientOrderId"] = clientOrderId;
+
         string jsonBody = JsonConvert.SerializeObject(requestBody);
+
+        // Tạo signature từ JSON body
         string signature = CreateSignature(jsonBody);
 
         // Tạo URL với signature
-        string url = $"{BASE_URL}/openApi/swap/v2/user/positions/close?signature={signature}";
+        string url = $"{BASE_URL}/openApi/swap/v2/user/orders/open?signature={signature}";
 
         // Gửi POST request
         var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
