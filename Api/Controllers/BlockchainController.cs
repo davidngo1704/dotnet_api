@@ -114,29 +114,11 @@ namespace Api.Controllers
                 "WRBgQMeHgEedbetPMNljc9ui6qiLMnc5mwB9e4Ah5epuS3ySGnVuW9oBuIf4ieeg1DtPzRSYoHRG7aD9Z5Wig",
                 "8t7Ew6VhUSELZ4rbS8sFvTPvPwH6amOOoP5IniLckMfhdf7Qw9C1VGcGZTeaZGVuCo90ETCY18hFuGc4Anig"
             );
+            // Mở lệnh Short với leverage 5x
+            var resultShort = await client.OpenPosition("ETH-USDT", "SHORT", 2m, leverage: 5m);
 
 
-            var resultString = await client.GetPositions();
-
-            var result = JsonConvert.DeserializeObject<BingxApiResponse>(resultString);
-
-            var finalResult = new List<object>();
-
-            foreach (var item in result?.Data!)
-            {
-                finalResult.Add(new
-                {
-                    Symbol = item.Symbol,
-                    TaiXiu = item.PositionSide == "LONG" ? "LONG" : "SHORT",
-                    LaiLo = item.UnrealizedProfit,
-                    GiaThanhLy = item.LiquidationPrice,
-                    GiaDanhDau = item.MarkPrice,
-                    GiaVaoLenh = item.AvgPrice,
-                    DonBay = item.Leverage,
-                });
-            }
-
-            return Ok(finalResult);
+            return Ok(resultShort);
         }
         [HttpGet]
         public async Task<IActionResult> BingxLong()
@@ -149,19 +131,7 @@ namespace Api.Controllers
             // Mở lệnh Long với leverage mặc định
             var resultLong = await client.OpenPosition("BTC-USDT", "LONG", 1m);
 
-            // Mở lệnh Short với leverage 5x
-            var resultShort = await client.OpenPosition("ETH-USDT", "SHORT", 2m, leverage: 5m);
-
-            // Mở lệnh Long với client order ID để track
-            var resultWithId = await client.OpenPosition(
-                "BTC-USDT",
-                "LONG",
-                1m,
-                leverage: 3m,
-                clientOrderId: "order_12345"
-            );
-
-            return Ok();
+            return Ok(resultLong);
         }
 
 
