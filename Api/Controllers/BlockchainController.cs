@@ -138,52 +138,52 @@ namespace Api.Controllers
 
 
 
-        //[HttpGet]
-        //public async Task<IActionResult> BinanceGetPosition()
-        //{
-        //    var client = new BinanceClient(
-        //        "06MzlJ1aV3quq7f8WnBPp73iHLpNEkFgGBLTVFmjEJ0W29bLXIVNJ7WUgG64LnYb",
-        //        "rrof6lQsbXMTyeuSVkBbS1WbQWUnJbB7gotZgOND2TyFTmdnAtI5MdEUGUjWZzZI"
-        //    );
+        [HttpGet]
+        public async Task<IActionResult> BinanceGetPosition()
+        {
+            var client = new BinanceClient(
+                "PQpMBOQdAjwQCti2fKUiYvNQElFXuYV2H6NUTCD9Wq3SeXQL6Ou6HLVm2DWAkUC4",
+                "1ooyv5o9dBBHPv3BtvHCw1xueXklFCS6Pt67VNGKWv36awYv8PSzngjAMgRixeYI"
+            );
 
-        //    var result = await client.GetSpotBalance();
+            var result = await client.GetSpotBalance();
 
-        //    var data = JsonConvert.DeserializeObject<AccountInfo>(result);
+            var data = JsonConvert.DeserializeObject<AccountInfo>(result);
 
-        //    var resultReal = new List<Balance>();
+            var resultReal = new List<Balance>();
 
-        //    if (data?.Balances != null)
-        //    {
-        //        foreach (var item in data.Balances)
-        //        {
-        //            if (item.Free > 0)
-        //            {
-        //                if (item.Asset != null && item.Asset.StartsWith("LD"))
-        //                {
-        //                    item.Asset = item.Asset.Replace("LD", "");
-        //                }
+            if (data?.Balances != null)
+            {
+                foreach (var item in data.Balances)
+                {
+                    if (item.Free > 0)
+                    {
+                        if (item.Asset != null && item.Asset.StartsWith("LD"))
+                        {
+                            item.Asset = item.Asset.Replace("LD", "");
+                        }
 
-        //                if (item.Asset == "USDT")
-        //                {
-        //                    item.Price = 1;
-        //                    resultReal.Add(item);
-        //                    continue;
-        //                }
+                        if (item.Asset == "USDT")
+                        {
+                            item.Price = 1;
+                            resultReal.Add(item);
+                            continue;
+                        }
 
-        //                var dataPrice = await _httpService.GetAsync<CoinPriceModel>(@$"https://api.binance.com/api/v3/ticker/price?symbol={item.Asset}USDT");
+                        var dataPrice = await _httpService.GetAsync<CoinPriceModel>(@$"https://api.binance.com/api/v3/ticker/price?symbol={item.Asset}USDT");
 
-        //                item.Price = dataPrice?.price ?? 0;
+                        item.Price = dataPrice?.price ?? 0;
 
-        //                resultReal.Add(item);
-        //            }
-        //        }
-        //    }
+                        resultReal.Add(item);
+                    }
+                }
+            }
 
-        //    return Ok(new
-        //    {
-        //        Total = resultReal.Sum(x => x.Free * x.Price),
-        //        Coin = resultReal,
-        //    });
-        //}
+            return Ok(new
+            {
+                Total = resultReal.Sum(x => x.Free * x.Price),
+                Coin = resultReal,
+            });
+        }
     }
 }
