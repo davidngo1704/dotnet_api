@@ -196,12 +196,12 @@ namespace Api.Services.Implements
 
                 coin.timeStamp = DateTime.UtcNow.AddHours(7);
 
-                FileHelper.WriteText($"/var/lib/ApiGateway/blockchain/cex/binance/price{coin.symbol}.json", System.Text.Json.JsonSerializer.Serialize(coin));
-            
+                FileHelper.WriteText($"/var/lib/ApiGateway/blockchain/cex/binance/{coin.symbol}/{coin.timeStamp.Day}/{coin.timeStamp.Hour}/{coin.timeStamp.Minute}.json", System.Text.Json.JsonSerializer.Serialize(coin));
+                
                 
                 
 
-            
+                
             }
 
 
