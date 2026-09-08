@@ -80,6 +80,12 @@ public class CoinPriceModel
     public string? symbol { get; set; }
     public decimal price { get; set; }
 }
+public class CoinListModel
+{
+    public string? symbol { get; set; }
+    public string? price { get; set; }
+    public DateTime timeStamp { get; set; }
+}
 public class CoinPriceResponse
 {
     public string? datetime { get; set; }

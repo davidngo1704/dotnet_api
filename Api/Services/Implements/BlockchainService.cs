@@ -17,6 +17,7 @@ namespace Api.Services.Implements
 
         public async Task TriggerMinute()
         {
+            #region Comment
 
             //var clientBingx = new BingXClient(
             //    "tl77B8Cu3kD6qOO98qofzJb6M5dbTMl7KTL1ddUHREHCjvXxRp5ARHWq5j9uMGlguNyBNLIHaBYq16kQ",
@@ -36,146 +37,173 @@ namespace Api.Services.Implements
 
             //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/result.json", resultBinance);
 
-            var dataBTC = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
+            //var dataBTC = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
 
-            var resultBTC = new CoinPriceResponse()
+            //var resultBTC = new CoinPriceResponse()
+            //{
+            //    data = dataBTC,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceBTC.json", System.Text.Json.JsonSerializer.Serialize(resultBTC));
+
+
+
+            //var dataETH = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT");
+
+            //var resultETH = new CoinPriceResponse()
+            //{
+            //    data = dataETH,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceETH.json", System.Text.Json.JsonSerializer.Serialize(resultETH));
+
+
+
+            //var dataPAXG = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=PAXGUSDT");
+
+            //var resultPAXG = new CoinPriceResponse()
+            //{
+            //    data = dataPAXG,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/pricePAXG.json", System.Text.Json.JsonSerializer.Serialize(resultPAXG));
+
+
+            //var dataXAG = await _httpService.GetAsync<CoinPriceModel>("https://fapi.binance.com/fapi/v1/ticker/price?symbol=XAGUSDT");
+
+            //var resultXAG = new CoinPriceResponse()
+            //{
+            //    data = dataXAG,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceXAG.json", System.Text.Json.JsonSerializer.Serialize(resultXAG));
+
+
+
+
+            //var dataARB = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ARBUSDT");
+
+            //var resultARB = new CoinPriceResponse()
+            //{
+            //    data = dataARB,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceARB.json", System.Text.Json.JsonSerializer.Serialize(resultARB));
+
+            ////---------------------------------------------------------------------------------------------------------------------------------------------
+
+            //var dataSTRK = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=STRKUSDT");
+
+            //var resultSTRK = new CoinPriceResponse()
+            //{
+            //    data = dataSTRK,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceSTRK.json", System.Text.Json.JsonSerializer.Serialize(resultSTRK));
+
+
+            ////---------------------------------------------------------------------------------------------------------------------------------------------
+
+            //var dataOP = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=OPUSDT");
+
+            //var resultOP = new CoinPriceResponse()
+            //{
+            //    data = dataOP,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceOP.json", System.Text.Json.JsonSerializer.Serialize(resultOP));
+
+            ////---------------------------------------------------------------------------------------------------------------------------------------------
+
+            //var dataWLD = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=WLDUSDT");
+
+            //var resultWLD = new CoinPriceResponse()
+            //{
+            //    data = dataWLD,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceWLD.json", System.Text.Json.JsonSerializer.Serialize(resultWLD));
+
+            //var dataSOL = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT");
+
+            //var resultSOL = new CoinPriceResponse()
+            //{
+            //    data = dataSOL,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceSOL.json", System.Text.Json.JsonSerializer.Serialize(resultSOL));
+
+            ////---------------------------------------------------------------------------------------------------------------------------------------------
+
+            //var dataBNB = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT");
+
+            //var resultBNB = new CoinPriceResponse()
+            //{
+            //    data = dataBNB,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceBNB.json", System.Text.Json.JsonSerializer.Serialize(resultBNB));
+
+
+            ////---------------------------------------------------------------------------------------------------------------------------------------------
+
+            //var dataONDO = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ONDOUSDT");
+
+            //var resultONDO = new CoinPriceResponse()
+            //{
+            //    data = dataONDO,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceONDO.json", System.Text.Json.JsonSerializer.Serialize(resultONDO));
+            ////---------------------------------------------------------------------------------------------------------------------------------------------
+
+            //var dataLINK = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=LINKUSDT");
+
+            //var resultLINK = new CoinPriceResponse()
+            //{
+            //    data = dataLINK,
+            //    datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceLINK.json", System.Text.Json.JsonSerializer.Serialize(resultLINK));
+            #endregion
+
+            //string filePath = @"D:\vuejs\crypto_trading\public\src\database\coin_list.json";
+            string filePath = @"/var/lib/ApiGateway/coin_list.json";
+
+            var coin_list_string = FileHelper.ReadFromFile(filePath);
+
+            var coin_list = System.Text.Json.JsonSerializer.Deserialize<List<CoinListModel>>(coin_list_string);
+
+            var data = await _httpService.GetAsync<List<CoinListModel>>("https://api.binance.com/api/v3/ticker/price");
+
+            foreach (var coin in coin_list!)
             {
-                data = dataBTC,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
+                var price = data?.FirstOrDefault(x => x.symbol == coin.symbol)?.price;
 
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceBTC.json", System.Text.Json.JsonSerializer.Serialize(resultBTC));
+                coin.price = price;
 
+                coin.timeStamp = DateTime.UtcNow.AddHours(7);
 
+                FileHelper.WriteText($"/var/lib/ApiGateway/blockchain/cex/binance/price{coin.symbol}.json", System.Text.Json.JsonSerializer.Serialize(coin));
+            
+                
+                
 
-            var dataETH = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ETHUSDT");
+            
+            }
 
-            var resultETH = new CoinPriceResponse()
-            {
-                data = dataETH,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceETH.json", System.Text.Json.JsonSerializer.Serialize(resultETH));
-
-
-
-            var dataPAXG = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=PAXGUSDT");
-
-            var resultPAXG = new CoinPriceResponse()
-            {
-                data = dataPAXG,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/pricePAXG.json", System.Text.Json.JsonSerializer.Serialize(resultPAXG));
-
-
-            var dataXAG = await _httpService.GetAsync<CoinPriceModel>("https://fapi.binance.com/fapi/v1/ticker/price?symbol=XAGUSDT");
-
-            var resultXAG = new CoinPriceResponse()
-            {
-                data = dataXAG,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceXAG.json", System.Text.Json.JsonSerializer.Serialize(resultXAG));
-
-
-
-
-            var dataARB = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ARBUSDT");
-
-            var resultARB = new CoinPriceResponse()
-            {
-                data = dataARB,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceARB.json", System.Text.Json.JsonSerializer.Serialize(resultARB));
-
-            //---------------------------------------------------------------------------------------------------------------------------------------------
-
-            var dataSTRK = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=STRKUSDT");
-
-            var resultSTRK = new CoinPriceResponse()
-            {
-                data = dataSTRK,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceSTRK.json", System.Text.Json.JsonSerializer.Serialize(resultSTRK));
-
-
-            //---------------------------------------------------------------------------------------------------------------------------------------------
-
-            var dataOP = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=OPUSDT");
-
-            var resultOP = new CoinPriceResponse()
-            {
-                data = dataOP,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceOP.json", System.Text.Json.JsonSerializer.Serialize(resultOP));
-
-            //---------------------------------------------------------------------------------------------------------------------------------------------
-
-            var dataWLD = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=WLDUSDT");
-
-            var resultWLD = new CoinPriceResponse()
-            {
-                data = dataWLD,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceWLD.json", System.Text.Json.JsonSerializer.Serialize(resultWLD));
-
-            var dataSOL = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT");
-
-            var resultSOL = new CoinPriceResponse()
-            {
-                data = dataSOL,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceSOL.json", System.Text.Json.JsonSerializer.Serialize(resultSOL));
-
-            //---------------------------------------------------------------------------------------------------------------------------------------------
-
-            var dataBNB = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT");
-
-            var resultBNB = new CoinPriceResponse()
-            {
-                data = dataBNB,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceBNB.json", System.Text.Json.JsonSerializer.Serialize(resultBNB));
-
-
-            //---------------------------------------------------------------------------------------------------------------------------------------------
-
-            var dataONDO = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=ONDOUSDT");
-
-            var resultONDO = new CoinPriceResponse()
-            {
-                data = dataONDO,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceONDO.json", System.Text.Json.JsonSerializer.Serialize(resultONDO));
-            //---------------------------------------------------------------------------------------------------------------------------------------------
-
-            var dataLINK = await _httpService.GetAsync<CoinPriceModel>("https://api.binance.com/api/v3/ticker/price?symbol=LINKUSDT");
-
-            var resultLINK = new CoinPriceResponse()
-            {
-                data = dataLINK,
-                datetime = DateTime.UtcNow.AddHours(7).ToString("yyyy-MM-dd HH:mm:ss")
-            };
-
-            FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceLINK.json", System.Text.Json.JsonSerializer.Serialize(resultLINK));
 
 
 
