@@ -22,7 +22,11 @@ namespace Api.Controllers
             _blockchainService = blockchainService;
             _httpService = httpService;
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetVersion()
+        {
+            return Ok("1.0.0");
+        }
         [HttpGet]
         public async Task<IActionResult> TriggerMinute()
         {
