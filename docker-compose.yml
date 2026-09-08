@@ -9,7 +9,7 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: Production
       ASPNETCORE_URLS: http://0.0.0.0:5000
-      ConnectionStrings__DefaultConnection: "Host=postgres_db;Port=5432;Database=mydb;Username=admin;Password=admin123"
+      ConnectionStrings__DefaultConnection: "Host=postgres_db;Port=5432;Database=mydb;Username=myuser;Password=matkhau_manh"
     networks:
       - shared_net
     restart: unless-stopped

@@ -34,6 +34,7 @@ public class KucoinBalanceItem
 
     public decimal holds { get; set; }
 }
+
 public class CryptoModel
 {
     public string? asset { get; set; }
