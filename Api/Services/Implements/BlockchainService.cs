@@ -194,7 +194,7 @@ namespace Api.Services.Implements
 
                 coin.price = price;
 
-                coin.timeStamp = DateTime.UtcNow.AddHours(7);
+                coin.timeStamp = DateTime.Now;
 
                 if(decimal.Parse(coin.price!) > 0)
                 {
