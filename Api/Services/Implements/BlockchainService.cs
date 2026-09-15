@@ -177,9 +177,11 @@ namespace Api.Services.Implements
             //};
 
             //FileHelper.WriteText("/var/lib/ApiGateway/blockchain/cex/binance/priceLINK.json", System.Text.Json.JsonSerializer.Serialize(resultLINK));
-            #endregion
 
             //string filePath = @"D:\vuejs\crypto_trading\public\src\database\coin_list.json";
+
+            #endregion
+
             string filePath = @"/var/lib/ApiGateway/coin_list.json";
 
             var coin_list_string = FileHelper.ReadFromFile(filePath);
@@ -201,15 +203,7 @@ namespace Api.Services.Implements
                     FileHelper.WriteText($"/var/lib/ApiGateway/blockchain/cex/binance/{coin.symbol}/{coin.timeStamp.Day}/{coin.timeStamp.Hour}/{coin.timeStamp.Minute}.json", System.Text.Json.JsonSerializer.Serialize(coin));
                 }
 
-
-
-
-
-
             }
-
-
-
 
         }
 
